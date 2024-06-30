@@ -22,7 +22,8 @@ class ExpenseService:
             return ExactExpense(amount, paid_by, splits, expense_metadata)
         elif expense_type == ExpenseType.PERCENT:
             for split in splits:
-                split.amount = (amount * split.percent) / 100.0
+                if isinstance(split, PercentSplit):
+                    split.amount = (amount * split.percent) / 100.0
             return PercentExpense(amount, paid_by, splits, expense_metadata)
         elif expense_type == ExpenseType.EQUAL:
             total_splits = len(splits)
